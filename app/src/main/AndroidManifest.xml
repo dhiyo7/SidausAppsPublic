@@ -19,7 +19,7 @@
             android:name=".Activity.GetAduan"
             android:label="@string/title_activity_get_ad_uan"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Activity.AduanActivity" />
+<!--        <activity android:name=".Activity.AduanActivity" />-->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

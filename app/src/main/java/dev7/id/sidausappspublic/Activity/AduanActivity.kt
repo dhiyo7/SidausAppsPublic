@@ -3,24 +3,29 @@ package dev7.id.sidausappspublic.Activity
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ScrollView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.widget.NestedScrollView
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import dev7.id.pakhendrawan.Helper.Utils
 import dev7.id.sidausappspublic.Model.*
 import dev7.id.sidausappspublic.R
 import dev7.id.sidausappspublic.Server.ApiUtil
+import kotlinx.android.synthetic.main.activity_adan2.*
 import kotlinx.android.synthetic.main.content_ubah_usaha.*
 import kotlinx.android.synthetic.main.content_ubah_usaha.btnSimpan
 import kotlinx.android.synthetic.main.content_ubah_usaha.etAlamat
@@ -35,7 +40,6 @@ import retrofit2.Response
 import java.util.ArrayList
 
 class AduanActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
-
     private var apiKecamatan = ApiUtil.getKecamatanInterface()
     private var apiDesa = ApiUtil.getDesaInterface()
     private var api= ApiUtil.getUsahaInterface()
@@ -44,44 +48,37 @@ class AduanActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCl
     private var desas = mutableListOf<Desa>()
     private var kecamatans = mutableListOf<Kecamatan>()
     private var jenisIzins = Utils.getJenisIzins()
-    private var kepemilikans = Utils.getKepemilikans()
-
-    var latitude: Double = 0.toDouble()
-    var longitude:Double = 0.toDouble()
+    private var myLocation : Location? = null
     var mMap: GoogleMap? = null
     var mapFragment: SupportMapFragment? = null
     internal lateinit var customView: View
-    internal lateinit var nestedScrollView: NestedScrollView
+    internal lateinit var nestedScrollView: ScrollView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_adan2)
-
-
-
-        customView = findViewById(R.id.customView) as View
-        nestedScrollView = findViewById(R.id.parent) as NestedScrollView
-
+        customView = findViewById<View>(R.id.customView)
+        nestedScrollView = findViewById(R.id.parent)
         mapFragment = supportFragmentManager.findFragmentById(R.id.maps) as SupportMapFragment
         mapFragment!!.getMapAsync(this)
-
         fetchUsaha(getIdUsaha())
         fetchKecamatan()
-        postUsaha()
+        postAduan()
     }
 
 
 
-    private fun postUsaha() {
+    private fun postAduan() {
         btnSimpan.setOnClickListener {
             val pj = etPj.text.toString().trim()
             val alamat = etAlamat.text.toString().trim()
             val nama = etNama.text.toString().trim()
-            val hp = etHp.text.toString().trim()
+            val isi_aduan = etIsi.text.toString().trim()
+            val jawaban = etJawaban.text.toString().trim()
             val verify = "N"
 
 
-            if (!pj.isEmpty() && !alamat.isEmpty() && !nama.isEmpty() && !hp.isEmpty()) {
+            if (!pj.isEmpty() && !alamat.isEmpty() && !nama.isEmpty() && isi_aduan.isNotEmpty() && jawaban.isNotEmpty()) {
                 if (pj.length < 2) {
                     etPj.error = "Masukan Penananggug Jawab dengan benar"
                     etPj.requestFocus()
@@ -102,31 +99,30 @@ class AduanActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCl
                     Toast.makeText(this@AduanActivity, "Desa belum dipilih", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
+
+                if(myLocation == null){
+                    Toast.makeText(this@AduanActivity, "Cannot get location. Please check your permission", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
                 btnSimpan.isEnabled=false
                 val ji = spinnerJenisIzin.selectedItem as JenisIzin
-                val kp = spinnerKepemilikan.selectedItem as Kepemilikan
                 val desa = spinnerDesa.selectedItem as Desa
-
-                val request = api.putUsaha("Token ${getToken()}", currentUsaha.id, nama, pj, alamat, hp, verify, ji.getId(), kp.getId(), desa.getId())
-                request.enqueue(object : Callback<Usaha> {
-                    override fun onFailure(call: Call<Usaha>, t: Throwable) {
-                        println("wek "+t.message)
-                        Toast.makeText(this@AduanActivity, "Gagal Nmen", Toast.LENGTH_SHORT).show()
-
-                    }
-
-                    override fun onResponse(call: Call<Usaha>, response: Response<Usaha>) {
-                        if (response.isSuccessful){
-                            Toast.makeText(this@AduanActivity, "Sukses", Toast.LENGTH_SHORT).show()
-                            finish()
-                        }else{
-                            Toast.makeText(this@AduanActivity, "Respon Gagal", Toast.LENGTH_SHORT).show()
-                            println("weeek "+response.body().toString())
-
-                        }
+                val req = api.postAduan("Token ${getToken()}", nama, pj, alamat, verify, ji.id, desa.id, isi_aduan, jawaban, myLocation?.latitude, myLocation?.longitude)
+                req.enqueue(object : Callback<Aduan>{
+                    override fun onFailure(call: Call<Aduan>, t: Throwable) {
+                        Toast.makeText(this@AduanActivity, "Failure ${t.message}", Toast.LENGTH_LONG).show()
                         btnSimpan.isEnabled = true
                     }
 
+                    override fun onResponse(call: Call<Aduan>, response: Response<Aduan>) {
+                        if(response.isSuccessful){
+                            Toast.makeText(this@AduanActivity, "Success", Toast.LENGTH_LONG).show()
+                            finish()
+                        }else{
+                            Toast.makeText(this@AduanActivity, "Something went wrong", Toast.LENGTH_LONG).show()
+                            btnSimpan.isEnabled = true
+                        }
+                    }
                 })
             }
         }
@@ -220,6 +216,7 @@ class AduanActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCl
             }
         }
     }
+
     private fun filterDesa(id_kecamatan : Int){
         val temp = ArrayList<Desa>()
         for (ds in desas) {
@@ -249,7 +246,6 @@ class AduanActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCl
         return selectedDesa
     }
 
-
     private fun spinnerJenisIzinBehavior() {
         val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, jenisIzins)
         spinnerJenisIzin.adapter = adapter
@@ -262,36 +258,45 @@ class AduanActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCl
         }
     }
 
-//    private fun spinnerKepemilikanBehavior() {
-//        val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, kepemilikans)
-//        spinnerKepemilikan.adapter = adapter
-//        for (position in 0 until adapter.count) {
-//            val x = adapter.getItem(position) as Kepemilikan
-//            if (x.id.equals(currentUsaha.kepemilikan)) {
-//                spinnerKepemilikan.setSelection(position)
-//                return
-//            }
-//        }
-//    }
-
     override fun onMapReady(p0: GoogleMap?) {
-        mMap = p0
-        val latitude = -6.895558
-        val longitude = 109.168228
-        val point = LatLng(latitude, longitude)
-        mMap?.getUiSettings()?.isZoomControlsEnabled
-        mMap?.getUiSettings()?.isMyLocationButtonEnabled
-        mMap?.getUiSettings()?.isTiltGesturesEnabled
-
-        val cameraPosition = CameraPosition.Builder().target(point).zoom(15f).build()
-        mMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-        mMap?.clear()
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !== PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !== PackageManager.PERMISSION_GRANTED) {
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this@AduanActivity, "Anda harus mengizinkan akses lokasi", Toast.LENGTH_LONG).show()
             return
         }
-        mMap?.setMyLocationEnabled(true)
-        mMap?.setOnMapClickListener(this)
+        val mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this@AduanActivity)
+        mFusedLocationProviderClient.lastLocation.apply {
+            addOnCompleteListener {
+                if(it.isSuccessful){
+                    it.result?.let {
+                        myLocation = it
+                        mMap = p0
+                        val point = LatLng(myLocation!!.latitude, myLocation!!.longitude)
+                        mMap?.apply {
+                            uiSettings?.isZoomControlsEnabled = true
+                            uiSettings?.isMyLocationButtonEnabled = true
+                            uiSettings?.isTiltGesturesEnabled = true
+                            animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.Builder().target(point).zoom(15f).build()))
+                            clear()
+                            isMyLocationEnabled = true
+                            mMap?.setOnMapClickListener(this@AduanActivity)
+                        }
+                    }
+                }
+            }
+            addOnFailureListener {
+                Toast.makeText(this@AduanActivity, "Tidak dapat mengambil lokasi", Toast.LENGTH_LONG).show()
+            }
+        }
+
+    }
+
+
+    override fun onMapClick(p0: LatLng?) {
+        Toast.makeText(this@AduanActivity, "Location changet to lat : ${p0?.latitude} and lon : ${p0?.longitude}", Toast.LENGTH_LONG).show()
+        val marker = MarkerOptions().position(LatLng(p0!!.latitude, p0.longitude))
+        mMap?.clear()
+        mMap?.addMarker(marker)
     }
 
 //    override fun onMapClick(p0: LatLng?) {

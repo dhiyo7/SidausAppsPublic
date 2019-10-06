@@ -1,6 +1,8 @@
 package dev7.id.sidausappspublic.Server;
 
 import java.util.List;
+
+import dev7.id.sidausappspublic.Model.Aduan;
 import dev7.id.sidausappspublic.Model.Usaha;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -50,16 +52,19 @@ public interface UsahaInterface {
                          @Field("Desa") int Desa);
 
     @GET("rest-api/Aduan/")
-    Call<List<Usaha>> getAduan(@Header("Authorization") String token);
+    Call<List<Aduan>> getAduan(@Header("Authorization") String token);
 
+    @FormUrlEncoded
     @POST("rest-api/Aduan/")
-    Call<List<Usaha>> postAduan(@Header("Authorization") String token,
-                                @Field("Nama") String Nama,
-                                @Field("NamaPenanggungJawab") String NamaPenanggungJawab,
-                                @Field("Alamat") String Alamat,
-                                @Field("Verify") String Verify,
-                                @Field("Jenis") String Jenis,
-                                @Field("Desa") int Desa,
-                                @Field("IsiAduan") String IsiAduan,
-                                @Field("Jawaban") String Jawaban);
+    Call<Aduan> postAduan(@Header("Authorization") String token,
+                          @Field("Nama") String Nama,
+                          @Field("NamaPenanggungJawab") String NamaPenanggungJawab,
+                          @Field("Alamat") String Alamat,
+                          @Field("Verify") String Verify,
+                          @Field("Jenis") String Jenis,
+                          @Field("Desa") int Desa,
+                          @Field("IsiAduan") String IsiAduan,
+                          @Field("Jawaban") String Jawaban,
+                          @Field("Latitude") Double latitude,
+                          @Field("Longitude") Double longitude);
 }
