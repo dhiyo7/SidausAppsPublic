@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Adan2Activity">
+    android:id="@+id/parent"
+    tools:context=".Activity.AduanActivity">
 
     <LinearLayout
         android:padding="10dp"
@@ -122,16 +123,22 @@
 
 
         <RelativeLayout
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="100dp">
-
+            android:layout_height="160dp"
+            android:id="@+id/ln_map"
+            android:padding="5dp">
             <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:id="@+id/maps"/>
 
+            <View
+                android:id="@+id/customView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent" />
         </RelativeLayout>
 
 

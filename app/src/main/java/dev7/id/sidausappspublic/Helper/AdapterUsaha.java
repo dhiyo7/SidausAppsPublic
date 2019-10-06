@@ -1,15 +1,11 @@
 package dev7.id.sidausappspublic.Helper;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,9 +14,7 @@ import java.util.ArrayList;
 
 
 import dev7.id.pakhendrawan.Helper.Utils;
-import dev7.id.sidausappspublic.Activity.Adan2Activity;
 import dev7.id.sidausappspublic.Activity.AduanActivity;
-import dev7.id.sidausappspublic.Activity.UbahUsahaActivity;
 import dev7.id.sidausappspublic.Model.Desa;
 import dev7.id.sidausappspublic.Model.JenisIzin;
 import dev7.id.sidausappspublic.Model.Kecamatan;
@@ -114,7 +108,7 @@ public class AdapterUsaha extends RecyclerView.Adapter<AdapterUsaha.ViewHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent a = new Intent(context, Adan2Activity.class);
+                Intent a = new Intent(context, AduanActivity.class);
                 a.putExtra("USAHA", data.get(position).getId());
                 context.startActivity(a);
             }

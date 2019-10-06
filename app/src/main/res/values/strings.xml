@@ -20,4 +20,5 @@
     <string name="title_activity_kecamatan_">Kecamatan_Activity</string>
     <string name="title_activity_main3">Main3Activity</string>
     <string name="title_activity_aduan">AduanActivity</string>
+    <string name="title_activity_get_ad_uan">GetAdUAN</string>
 </resources>
