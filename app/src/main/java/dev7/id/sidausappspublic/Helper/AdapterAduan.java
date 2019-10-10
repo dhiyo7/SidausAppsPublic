@@ -1,7 +1,6 @@
-package dev7.id.pakhendrawan.Helper;
+package dev7.id.sidausappspublic.Helper;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import dev7.id.pakhendrawan.Activity.UbahUsahaActivity;
-import dev7.id.pakhendrawan.Model.Aduan;
-import dev7.id.pakhendrawan.Model.Desa;
-import dev7.id.pakhendrawan.Model.JenisIzin;
-import dev7.id.pakhendrawan.Model.Kecamatan;
-import dev7.id.pakhendrawan.Model.Kepemilikan;
-import dev7.id.pakhendrawan.Model.Usaha;
-import dev7.id.pakhendrawan.R;
+import dev7.id.pakhendrawan.Helper.Utils;
+import dev7.id.sidausappspublic.Model.Aduan;
+import dev7.id.sidausappspublic.Model.Desa;
+import dev7.id.sidausappspublic.Model.JenisIzin;
+import dev7.id.sidausappspublic.Model.Kecamatan;
+import dev7.id.sidausappspublic.Model.Kepemilikan;
+import dev7.id.sidausappspublic.R;
 
 public class AdapterAduan extends RecyclerView.Adapter<AdapterAduan.ViewHolder> {
 
@@ -49,7 +47,7 @@ public class AdapterAduan extends RecyclerView.Adapter<AdapterAduan.ViewHolder> 
     }
 
     @Override
-    public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adpter_aduan, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;

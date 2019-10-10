@@ -1,34 +1,25 @@
-package dev7.id.pakhendrawan.Activity;
+package dev7.id.sidausappspublic.Activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import dev7.id.pakhendrawan.Helper.AdapterAduan;
-import dev7.id.pakhendrawan.Helper.AdapterUsaha;
-import dev7.id.pakhendrawan.Model.Aduan;
-import dev7.id.pakhendrawan.Model.Desa;
-import dev7.id.pakhendrawan.Model.Kecamatan;
-import dev7.id.pakhendrawan.Model.Usaha;
-import dev7.id.pakhendrawan.R;
-import dev7.id.pakhendrawan.Server.ApiUtil;
-import dev7.id.pakhendrawan.Server.DesaInterface;
-import dev7.id.pakhendrawan.Server.KecamatanInterface;
-import dev7.id.pakhendrawan.Server.UsahaInterface;
+import dev7.id.sidausappspublic.Helper.AdapterAduan;
+import dev7.id.sidausappspublic.Model.Aduan;
+import dev7.id.sidausappspublic.Model.Desa;
+import dev7.id.sidausappspublic.Model.Kecamatan;
+import dev7.id.sidausappspublic.R;
+import dev7.id.sidausappspublic.Server.ApiUtil;
+import dev7.id.sidausappspublic.Server.DesaInterface;
+import dev7.id.sidausappspublic.Server.KecamatanInterface;
+import dev7.id.sidausappspublic.Server.UsahaInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,7 +32,7 @@ public class AduanActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private AdapterAduan adapterAduan;
     private ArrayList<Aduan> usahas = new ArrayList<>();
-    private retrofit2.Call<List<Aduan>> call;
+    private Call<List<Aduan>> call;
     private Call desaRequest;
     private Call kecamatanRequest;
     private ArrayList desas = new ArrayList();

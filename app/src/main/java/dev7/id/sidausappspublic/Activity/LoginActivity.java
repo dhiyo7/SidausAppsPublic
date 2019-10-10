@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         if (!isNotLoggedIn()){
             //jika user sydah login
             //finish();
-            startActivity(new Intent(this, Main3Activity.class));
+            startActivity(new Intent(this, NewMain.class));
             finish();
         }else{
             //nothing here

@@ -1,7 +1,18 @@
 package dev7.id.sidausappspublic.Server;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+import android.util.Log;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.android.volley.VolleyLog.TAG;
 
 public class ApiUtil {
 //    public static final String ENDPOINT = "http://dpmptsp.brebeskab.go.id:8080/";
@@ -23,5 +34,26 @@ public class ApiUtil {
     public static KecamatanInterface getKecamatanInterface() { return getApiClient().create(KecamatanInterface.class); }
     public static DesaInterface getDesaInterface() { return getApiClient().create(DesaInterface.class); }
     public static UsahaInterface getUsahaInterface() { return getApiClient().create(UsahaInterface.class); }
+
+    public static String getAddressSimple(Double late, Double longe, Context context) {
+        String addressStr = "";
+        Geocoder geocoder;
+        List<Address> yourAddresses;
+        geocoder = new Geocoder(context, Locale.getDefault());
+        try {
+            yourAddresses = geocoder.getFromLocation(late,longe, 1);
+            if (yourAddresses.size() > 0) {
+                addressStr += yourAddresses.get(0).getAddressLine(0);
+//                addressStr += yourAddresses.get(0).getAddressLine(1);
+//                addressStr += yourAddresses.get(0).getAddressLine(2);
+                Log.d(TAG, "getAddressSimple: " +addressStr);
+            } else {
+                addressStr = "Nama jalan tidak diketahui...";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return addressStr;
+    }
 
 }
