@@ -16,7 +16,7 @@ import static com.android.volley.VolleyLog.TAG;
 
 public class ApiUtil {
 //    public static final String ENDPOINT = "http://dpmptsp.brebeskab.go.id:8080/";
-    public static final String BASE_URL = "http://dpmptsp.brebeskab.go.id:8080/";
+    public static final String BASE_URL = "https://sidaus.dpmptsp.brebeskab.go.id/";
 
     private static Retrofit retrofit;
 

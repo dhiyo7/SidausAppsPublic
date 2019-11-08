@@ -45,7 +45,7 @@ public class AduanActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("Daftar Aduan Masyarakat");
+        getSupportActionBar().setTitle("Daftar Aduan");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true
         );
 

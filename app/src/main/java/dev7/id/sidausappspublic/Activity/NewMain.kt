@@ -56,6 +56,8 @@ class NewMain : AppCompatActivity() , OnMapReadyCallback, GoogleMap.OnMapClickLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_main)
         setSupportActionBar(toolbar)
+        supportActionBar!!.title = "Buat Aduan"
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         customView = findViewById<View>(R.id.customViews)
         nestedScrollView = findViewById(R.id.nstd_View)
@@ -64,6 +66,11 @@ class NewMain : AppCompatActivity() , OnMapReadyCallback, GoogleMap.OnMapClickLi
         fetchKecamatan()
         postAduan()
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 
     private fun postAduan() {

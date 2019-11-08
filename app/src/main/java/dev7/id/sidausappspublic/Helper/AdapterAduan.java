@@ -56,17 +56,17 @@ public class AdapterAduan extends RecyclerView.Adapter<AdapterAduan.ViewHolder> 
     @Override
     public void onBindViewHolder(AdapterAduan.ViewHolder holder, final int position) {
         final String tvNamaUsaha = data.get(position).getNama();
-        final String tvNamaPenanggung = data.get(position).getPenanggung_jawab();
+//        final String tvNamaPenanggung = data.get(position).getPenanggung_jawab();
         final String tvAduan = data.get(position).getIsi_aduan();
         final String tvIzin = Utils.Companion.getNameJenisIzin(data.get(position).getJenis_usaha());
         final String tvDesa = Utils.Companion.getDesaName(Integer.parseInt(String.valueOf(data.get(position).getDesa())), desas);
         final String tvAlamat = data.get(position).getAlamat();
         final String kec = Utils.Companion.getKecamatanName(Integer.parseInt(String.valueOf(data.get(position).getDesa())), desas, kecamatans);
         holder.tvNamaUsaha.setText(tvNamaUsaha);
-        holder.tvNamaPenanggung.setText(tvNamaPenanggung);
+//        holder.tvNamaPenanggung.setText(tvNamaPenanggung);
         holder.tvDesa.setText(tvDesa);
         holder.tvAlamat.setText(tvAlamat);
-        holder.tvIzin.setText(tvIzin);
+//        holder.tvIzin.setText(tvIzin);
         holder.tvKecamatan.setText(kec);
         holder.tvAduan.setText(tvAduan);
 
@@ -93,9 +93,9 @@ public class AdapterAduan extends RecyclerView.Adapter<AdapterAduan.ViewHolder> 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNamaUsaha = itemView.findViewById(R.id.tvNamaUsaha);
-            tvNamaPenanggung = itemView.findViewById(R.id.tvNamaPenanggung);
-            tvKepemilikan = itemView.findViewById(R.id.tvKepemilikan);
-            tvIzin = itemView.findViewById(R.id.tvIzin);
+//            tvNamaPenanggung = itemView.findViewById(R.id.tvNamaPenanggung);
+//            tvKepemilikan = itemView.findViewById(R.id.tvKepemilikan);
+//            tvIzin = itemView.findViewById(R.id.tvIzin);
             tvKecamatan = itemView.findViewById(R.id.tvKecamatan);
             tvDesa = itemView.findViewById(R.id.tvDesa);
             tvAlamat = itemView.findViewById(R.id.tvAlamat);

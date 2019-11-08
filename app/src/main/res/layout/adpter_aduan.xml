@@ -37,40 +37,6 @@
                 android:textStyle="bold"
                 android:textColor="@color/Text"/>
 
-            <TextView
-                android:id="@+id/tvNamaPenanggung"
-                android:layout_marginTop="3dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nama Penanggung Jawab"
-                android:textColor="@color/Text"
-                android:textSize="18sp"/>
-
-            <LinearLayout
-                android:layout_marginTop="3dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="2">
-
-                <TextView
-                    android:id="@+id/tvKepemilikan"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kepemilikan"/>
-
-                <TextView
-                    android:id="@+id/tvIzin"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="JenisIzin"/>
-
-            </LinearLayout>
 
             <TextView
                 android:layout_marginTop="3dp"
@@ -109,13 +75,13 @@
                 android:id="@+id/tvAduan"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:padding="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Aduan"
                 android:textColor="@color/White"
-                android:textSize="25sp"
-                android:background="@color/design_default_color_primary_dark"/>
+                android:textSize="22sp"
+                android:background="@color/colorAccent"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
