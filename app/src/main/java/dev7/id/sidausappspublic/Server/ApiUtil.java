@@ -16,7 +16,7 @@ import static com.android.volley.VolleyLog.TAG;
 
 public class ApiUtil {
 //    public static final String ENDPOINT = "http://dpmptsp.brebeskab.go.id:8080/";
-    public static final String BASE_URL = "https://sidaus.dpmptsp.brebeskab.go.id/";
+    public static final String BASE_URL = "http://sidaus.dpmptsp.brebeskab.go.id:8080/";
 
     private static Retrofit retrofit;
 
@@ -31,6 +31,7 @@ public class ApiUtil {
     }
 
     public static UserInterface getUserInterface() { return getApiClient().create(UserInterface.class); }
+    public static RegisInterface getRegisInterface() { return getApiClient().create(RegisInterface.class); }
     public static KecamatanInterface getKecamatanInterface() { return getApiClient().create(KecamatanInterface.class); }
     public static DesaInterface getDesaInterface() { return getApiClient().create(DesaInterface.class); }
     public static UsahaInterface getUsahaInterface() { return getApiClient().create(UsahaInterface.class); }

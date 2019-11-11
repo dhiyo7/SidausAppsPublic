@@ -21,7 +21,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private UserInterface userInterface = ApiUtil.getUserInterface();
     private SharedPreferences setting;
-    private User mUser = new User();
     private static final String TAG = "Login";
     private TextInputEditText etUsername, etPassword;
     private Button btnLogin;
