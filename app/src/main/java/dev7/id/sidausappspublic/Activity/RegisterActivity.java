@@ -23,11 +23,9 @@ import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private UserInterface userInterface = ApiUtil.getUserInterface();
     private RegisInterface regisInterface = ApiUtil.getRegisInterface();
     private SharedPreferences setting;
-    private static final String TAG = "Login";
-    private TextInputEditText etUsername, etPassword, etEmail;
+    private TextInputEditText etUsername2, etPassword2, etEmail2;
     private Button btnRegis;
 
     @Override
@@ -36,41 +34,45 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         initView();
-        doLogin();
+        doRegis();
     }
 
     private void initView() {
-        etUsername = findViewById(R.id.etUsername);
-        etPassword = findViewById(R.id.etPassword);
-        etEmail = findViewById(R.id.etEmail);
+        etUsername2 = findViewById(R.id.etUsername2);
+        etPassword2 = findViewById(R.id.etPassword2);
+        etEmail2 = findViewById(R.id.etEmail2);
         btnRegis = findViewById(R.id.btnRegis);
         setting = getSharedPreferences("USER", MODE_PRIVATE);
     }
 
-    private void doLogin() {
+    private void doRegis() {
         btnRegis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = etUsername.getText().toString().trim();
-                String email = etEmail.getText().toString().trim();
-                String password = etPassword.getText().toString().trim();
+                String username = etUsername2.getText().toString().trim();
+                String email = etEmail2.getText().toString().trim();
+                String password = etPassword2.getText().toString().trim();
                 if (!username.isEmpty() && !email.isEmpty() && !password.isEmpty() && password.length() > 3 && username.length() > 2){
-
                     btnRegis.setEnabled(false);
                     Call<User> _user = regisInterface.registerr(username, email, password);
                     _user.enqueue(new Callback<User>() {
                         @Override
                         public void onResponse(Call<User> call, Response<User> response) {
-                            User result = response.body();
-                            if (response.isSuccessful() && result != null){
-                                Log.i("done", result.toString());
+//                            User result = response.body();
+                            System.out.println("bodyne "+response.body());
+                            if (response.isSuccessful()){
+//                                Log.i("done", result.toString());
+//                                String  = response.body();
                                 System.out.println("wew "+ response );
+                                System.out.println("weok "+response.body());
                                 Intent a = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(a);
+                                finish();
                             }else {
                                 Toast.makeText(RegisterActivity.this, "Gagal Daftar", Toast.LENGTH_SHORT).show();
                                 System.err.println("apaaan " + response);
                                 Log.i("done", response.toString());
+                                System.out.println("kuwuk "+response.body());
                             }
                             btnRegis.setEnabled(true);
                         }

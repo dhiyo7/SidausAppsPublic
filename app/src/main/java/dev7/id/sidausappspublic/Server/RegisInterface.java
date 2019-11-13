@@ -10,7 +10,7 @@ import retrofit2.http.POST;
 public interface RegisInterface {
 
     @FormUrlEncoded
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/x-www-form-urlencoded")
     @POST("register/")
     Call<User> registerr (@Field("username") String username, @Field("email") String email, @Field("password") String password);
 }

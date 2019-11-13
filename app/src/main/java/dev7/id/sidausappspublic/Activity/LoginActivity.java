@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.i("done", result.toString());
                                     System.out.println("kie "+result.getToken());
                                     setLoggedIn(result.getToken());
-                                    Intent a= new Intent(LoginActivity.this, MainActivity.class);
+                                    Intent a= new Intent(LoginActivity.this, TestActivity.class);
                                     startActivity(a);
 //                                    finish();
                                 } else {
