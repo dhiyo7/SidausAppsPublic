@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "Login";
     private TextInputEditText etUsername, etPassword;
     private Button btnLogin;
+    private TextView tvRegis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +34,26 @@ public class LoginActivity extends AppCompatActivity {
 
         initView();
         doLogin();
+        doRegis();
     }
+
 
     private void initView() {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        tvRegis = findViewById(R.id.tvRegis);
         setting = getSharedPreferences("USER", MODE_PRIVATE);
+    }
+
+    private void doRegis() {
+        tvRegis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent a = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(a);
+            }
+        });
     }
 
     private void doLogin() {

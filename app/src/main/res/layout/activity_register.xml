@@ -73,6 +73,17 @@
                 android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/tvLogin"
+            android:gravity="end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sudah Punya Akun? Masuk"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginRight="10dp"
+            android:textSize="12sp"/>
+
+
         <Button
             android:id="@+id/btnRegis"
             android:layout_margin="10dp"
