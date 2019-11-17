@@ -77,7 +77,7 @@ public class AdapterAduan extends RecyclerView.Adapter<AdapterAduan.ViewHolder> 
 //                a.putExtra("ADUAN", data.get(position).getId());
 //                context.startActivity(a);
 
-                Toast.makeText(context, "Cek", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Cek", Toast.LENGTH_SHORT).show();
             }
         });
     }
