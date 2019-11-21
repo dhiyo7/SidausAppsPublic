@@ -15,6 +15,7 @@ import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -65,7 +66,6 @@ class NewMain : AppCompatActivity() , OnMapReadyCallback, GoogleMap.OnMapClickLi
         mapFragment!!.getMapAsync(this)
         fetchKecamatan()
         postAduan()
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -132,6 +132,7 @@ class NewMain : AppCompatActivity() , OnMapReadyCallback, GoogleMap.OnMapClickLi
             }
         }
     }
+
 
     private fun getToken(): String? {
         val SharedPreferences = this.getSharedPreferences("USER", Context.MODE_PRIVATE)
@@ -236,34 +237,43 @@ class NewMain : AppCompatActivity() , OnMapReadyCallback, GoogleMap.OnMapClickLi
     }
 
     override fun onMapReady(p0: GoogleMap?) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this@NewMain, "Anda harus mengizinkan akses lokasi", Toast.LENGTH_LONG).show()
-            return
-        }
-        val mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this@NewMain)
-        mFusedLocationProviderClient.lastLocation.apply {
-            addOnCompleteListener {
-                if(it.isSuccessful){
-                    it.result?.let {
-                        myLocation = it
-                        mMap = p0
-                        val point = LatLng(myLocation!!.latitude, myLocation!!.longitude)
-                        mMap?.apply {
-                            uiSettings?.isZoomControlsEnabled = true
-                            uiSettings?.isMyLocationButtonEnabled = true
-                            uiSettings?.isTiltGesturesEnabled = true
-                            animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.Builder().target(point).zoom(15f).build()))
-                            clear()
-                            isMyLocationEnabled = true
-                            mMap?.setOnMapClickListener(this@NewMain)
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+////            Toast.makeText(this@NewMain, "Anda harus mengizinkan akses lokasi", Toast.LENGTH_LONG).show()
+//            return
+//        }
+        println("hehe onmapResady")
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 666)
+        } else {
+            val mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this@NewMain)
+            mFusedLocationProviderClient.lastLocation.apply {
+                addOnCompleteListener {
+                    if(it.isSuccessful){
+                        it.result?.let {
+                            myLocation = it
+                            mMap = p0
+                            val point = LatLng(myLocation!!.latitude, myLocation!!.longitude)
+                            mMap?.apply {
+                                uiSettings?.isZoomControlsEnabled = true
+                                uiSettings?.isMyLocationButtonEnabled = true
+                                uiSettings?.isTiltGesturesEnabled = true
+                                animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.Builder().target(point).zoom(15f).build()))
+                                clear()
+                                isMyLocationEnabled = true
+                                mMap?.setOnMapClickListener(this@NewMain)
+                            }
                         }
                     }
                 }
+                addOnFailureListener {
+                    Toast.makeText(this@NewMain, "Tidak dapat mengambil lokasi", Toast.LENGTH_LONG).show()
+                }
             }
-            addOnFailureListener {
-                Toast.makeText(this@NewMain, "Tidak dapat mengambil lokasi", Toast.LENGTH_LONG).show()
-            }
+
         }
 
     }
@@ -279,6 +289,17 @@ class NewMain : AppCompatActivity() , OnMapReadyCallback, GoogleMap.OnMapClickLi
         mMap?.addMarker(marker)
         etAlamat.setText(alamat)
         Log.d("catatan", p0.latitude.toString() + "===" + alamat)
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        if (requestCode == 666) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission is granted", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Please enable location permission", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }

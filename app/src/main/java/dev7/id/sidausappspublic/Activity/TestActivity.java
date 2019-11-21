@@ -1,6 +1,8 @@
 package dev7.id.sidausappspublic.Activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,8 +11,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import java.util.Calendar;
 import dev7.id.sidausappspublic.R;
 
@@ -50,6 +58,7 @@ public class TestActivity extends AppCompatActivity {
         greetText = findViewById(R.id.greetText);
 
         greeting();
+        permissionAsk();
     }
 
     private void greeting() {
@@ -96,6 +105,26 @@ public class TestActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void permissionAsk(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, 666);
+        } else {
+            System.out.println("Location permissions available, starting location");
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 666){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission is granted", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "Please enable location permission", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 }
