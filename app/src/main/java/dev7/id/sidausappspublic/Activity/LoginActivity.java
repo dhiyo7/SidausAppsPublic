@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
+import com.grisoftware.updatechecker.GoogleChecker;
+
 import dev7.id.sidausappspublic.Model.User;
 import dev7.id.sidausappspublic.R;
 import dev7.id.sidausappspublic.Server.ApiUtil;
@@ -85,6 +87,8 @@ public class LoginActivity extends AppCompatActivity {
                                     System.out.println("kie "+result.getToken());
                                     setLoggedIn(result.getToken());
                                     Intent a= new Intent(LoginActivity.this, TestActivity.class);
+                                    new GoogleChecker("dev7.id.sidausappspublic",LoginActivity.this, false,"en");
+
                                     startActivity(a);
 //                                    finish();
                                 } else {

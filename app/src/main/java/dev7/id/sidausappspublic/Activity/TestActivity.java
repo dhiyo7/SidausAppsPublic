@@ -19,6 +19,8 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.grisoftware.updatechecker.GoogleChecker;
+
 import java.util.Calendar;
 import dev7.id.sidausappspublic.R;
 
@@ -32,6 +34,8 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        new GoogleChecker("dev7.id.sidausappspublic",TestActivity.this, false,"en");
+
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
