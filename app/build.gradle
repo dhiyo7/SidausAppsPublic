@@ -44,6 +44,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.google.android.libraries.places:places:1.1.0'
 
+    /* Some Lib */
+    implementation 'cat.ereza:customactivityoncrash:2.2.0'
+    implementation 'com.github.kobeumut:UpdateChecker:0.2.1'
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
